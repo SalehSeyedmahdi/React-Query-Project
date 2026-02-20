@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchUsers } from "../services/user.service";
+import { getUsers } from "../services/user.service";
 
 type User = {
 	id: string;
@@ -13,7 +13,7 @@ export function useUsers() {
 		error,
 	} = useQuery<User[], Error>({
 		queryKey: ["users"],
-		queryFn: fetchUsers,
+		queryFn: getUsers,
 	});
 	return { isLoading, userList, error: error ? "fail to fetch" : "" };
 }

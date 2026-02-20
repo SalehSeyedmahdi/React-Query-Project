@@ -1,18 +1,23 @@
-import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const USER_API = "https://690c987fa6d92d83e84e66f6.mockapi.io/users";
 
-export async function fetchUsers() {
-	const response = await fetch(USER_API);
-	return response.json();
+export type User = {
+	id: string;
+	username: string;
+};
+
+export async function getUsers() {
+	const res = await axios.get(USER_API);
+	return res.data;
 }
 
-function Users() {
-	const { data, isLoading, error } = useQuery({
-		queryKey: ["users"],
-		queryFn: fetchUsers,
-	});
+export async function createUser(newUser: User) {
+	const res = await axios.post(USER_API, newUser);
+	return res.data;
+}
 
-	if (isLoading) return "loading";
-	if (error) return "Oops!";
+export async function deleteUser(id: string) {
+	const res = await axios.delete(`${USER_API}/${id}`);
+	return res.data;
 }
